@@ -9,12 +9,12 @@ if len(sys.argv) not in (4,5):
 DATABASE_IP = sys.argv[1]
 LOGIN = sys.argv[2]
 PASSWORD = sys.argv[3]
-API_PORT = sys.argv[4] if len(sys.argv) == 5 else 80
+API_PORT = sys.argv[4] if len(sys.argv) == 5 else 5000
 
 # Imports & constants
 import pymysql
 from flask import Flask, request, jsonify, Response
-CONTACT_TABLE = "personnes"
+CONTACT_TABLE = "contacts"
 
 # Connexion à la base de données
 DATABASE_CONNEXION = pymysql.connect(DATABASE_IP, LOGIN, PASSWORD, CONTACT_TABLE)
