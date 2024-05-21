@@ -12,6 +12,8 @@ PASSWORD = sys.argv[3]
 API_PORT = sys.argv[4] if len(sys.argv) == 5 else 5000
 
 # Imports & constants
+import time
+time.sleep(10)	# Wait for the database to be ready
 import pymysql
 from flask import Flask, request, jsonify, Response
 CONTACT_TABLE = "contacts"
