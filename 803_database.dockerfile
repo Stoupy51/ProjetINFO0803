@@ -3,7 +3,7 @@
 FROM mysql:latest
 
 ENV MYSQL_ROOT_PASSWORD=projet_803_password
-ENV MYSQL_DATABASE=projet_803
+#ENV MYSQL_DATABASE=projet_803
 ENV MYSQL_USER=projet_803
 ENV MYSQL_PASSWORD=projet_803_password
 
