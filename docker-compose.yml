@@ -14,16 +14,16 @@ services:
       MYSQL_USER: projet_803
       MYSQL_PASSWORD: projet_803_password
 
-  # web_api_l:
-  #   image: 803_web_api
-  #   container_name: 803_web_api
-  #   ports:
-  #     - "5000:5000"
-  #   volumes:
-  #     - ./code_web_api:/app
-  #   depends_on:
-  #     - database_l
-  #   command: python /app/main.py database_l projet_803 projet_803_password 5000
+  web_api_l:
+    image: 803_web_api
+    container_name: 803_web_api
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./code_web_api:/app
+    depends_on:
+      - database_l
+    command: python /app/main.py database_l projet_803 projet_803_password 5000
 
   # web_front_l:
   #   image: 803_web_front

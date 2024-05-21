@@ -17,7 +17,7 @@ from flask import Flask, request, jsonify, Response
 CONTACT_TABLE = "contacts"
 
 # Connexion à la base de données
-DATABASE_CONNEXION = pymysql.connect(DATABASE_IP, LOGIN, PASSWORD, CONTACT_TABLE)
+DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database=CONTACT_TABLE)
 CURSOR = DATABASE_CONNEXION.cursor()
 
 # Création d'une instance de l'application Flask

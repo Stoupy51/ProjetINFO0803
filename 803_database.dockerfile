@@ -9,7 +9,7 @@ ENV MYSQL_PASSWORD=projet_803_password
 
 # Setup database data
 #COPY init.sql /803_database/data/init.sql
-COPY init.sql /docker-entrypoint-initdb.d
+COPY ./data/init.sql /docker-entrypoint-initdb.d
 #RUN mysql -u root -p$MYSQL_ROOT_PASSWORD < /803_database/data/init.sql
 
 EXPOSE 3306
