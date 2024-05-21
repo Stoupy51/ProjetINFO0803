@@ -17,7 +17,7 @@ from flask import Flask, request, jsonify, Response
 CONTACT_TABLE = "contacts"
 
 # Connexion à la base de données
-DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database=CONTACT_TABLE)
+DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database="projet_803")
 CURSOR = DATABASE_CONNEXION.cursor()
 
 # Création d'une instance de l'application Flask
@@ -94,6 +94,7 @@ def get_contacts() -> tuple[Response, int]:
 			else:
 				query += f"{key} = '{value}' AND"
 		query = query[:-4]	# Remove last " AND"
+	print(query)
 	CURSOR.execute(query)
 	contacts = CURSOR.fetchall()
 	return jsonify(contacts), 200

@@ -1,3 +1,9 @@
+CREATE DATABASE projet_803;
+USE projet_803;
+
+CREATE USER 'web_api'@'localhost' IDENTIFIED BY 'projet_803_password';
+GRANT ALL PRIVILEGES ON projet_803.* TO 'web_api'@'localhost';
+
 CREATE TABLE contacts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     prenom VARCHAR(50),

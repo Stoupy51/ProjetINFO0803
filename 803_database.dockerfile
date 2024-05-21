@@ -3,13 +3,13 @@
 FROM mysql:latest
 
 ENV MYSQL_ROOT_PASSWORD=projet_803_password
-ENV MYSQL_DATABASE=contacts
+ENV MYSQL_DATABASE=projet_803
 ENV MYSQL_USER=projet_803
 ENV MYSQL_PASSWORD=projet_803_password
 
 # Setup database data
 #COPY init.sql /803_database/data/init.sql
-COPY ./data/init.sql /docker-entrypoint-initdb.d
+ADD ./data/init.sql /docker-entrypoint-initdb.d
 #RUN mysql -u root -p$MYSQL_ROOT_PASSWORD < /803_database/data/init.sql
 
 EXPOSE 3306
