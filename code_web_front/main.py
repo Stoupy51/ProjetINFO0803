@@ -24,7 +24,7 @@ app = Flask(__name__)
 def home():
 	contacts = []
 	try:
-		contacts = requests.get(API_GET).json()
+		contacts = requests.post(API_GET).json()
 	except:
 		return "Erreur lors de la récupération des contacts", 500
 	
@@ -95,5 +95,5 @@ def remove_contact():
 
 # Exécution de l'application
 if __name__ == "__main__":
-	app.run("0.0.0.0")
+	app.run("0.0.0.0", 80)
 

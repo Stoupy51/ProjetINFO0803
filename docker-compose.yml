@@ -8,10 +8,10 @@ services:
       - "3306:3306"
     volumes:
       - ./data:/803_database/data
-    command: mysqld --init-file="/803_database/data/init.sql"
+    #command: mysqld --init-file="/803_database/data/init.sql"
     environment:
       MYSQL_ROOT_PASSWORD: projet_803_password
-      MYSQL_DATABASE: projet_803
+      #MYSQL_DATABASE: projet_803
       MYSQL_USER: projet_803
       MYSQL_PASSWORD: projet_803_password
 
@@ -27,15 +27,15 @@ services:
       - database_l
     command: python /app/main.py database_l web_api projet_803_password 5000
 
-  # web_front_l:
-  #   image: 803_web_front
-  #   container_name: 803_web_front
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - ./code_web_front:/app
-  #   depends_on:
-  #     - database_l
-  #     - web_api_l
-  #   command: python /app/main.py web_api_l 5000
+  web_front_l:
+    image: 803_web_front
+    container_name: 803_web_front
+    ports:
+      - "80:80"
+    volumes:
+      - ./code_web_front:/app
+    depends_on:
+      - database_l
+      - web_api_l
+    command: python /app/main.py web_api_l 5000
 
