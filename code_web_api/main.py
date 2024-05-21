@@ -13,13 +13,23 @@ API_PORT = sys.argv[4] if len(sys.argv) == 5 else 5000
 
 # Imports & constants
 import time
-time.sleep(1)	# Wait for the database to be ready
 import pymysql
 from flask import Flask, request, jsonify, Response
 CONTACT_TABLE = "contacts"
 
 # Connexion à la base de données
-DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database="projet_803")
+DATABASE_CONNEXION = None
+count = 1
+max_count = 60
+while DATABASE_CONNEXION is None or count < max_count:
+	try:
+		DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database="projet_803")
+	except Exception as e:
+		print(f"Connexion à la base de données échouée, nouvelle tentative dans 1s ({count}/{max_count})")
+		time.sleep(1)
+		count += 1
+if DATABASE_CONNEXION is None:
+	DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database="projet_803")
 CURSOR = DATABASE_CONNEXION.cursor()
 
 # Création d'une instance de l'application Flask
