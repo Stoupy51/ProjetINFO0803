@@ -13,10 +13,7 @@ API_PORT = sys.argv[4] if len(sys.argv) == 5 else 5000
 
 # Vérification si l'adresse IP reçue en paramètre est valide
 import socket
-try:
-	socket.inet_aton(DATABASE_IP)
-except socket.error:
-	raise Exception("L'adresse IP de la base de données est invalide")
+socket.inet_aton(DATABASE_IP)
 
 # Imports & constants
 import time
