@@ -94,13 +94,14 @@ def get_contacts() -> tuple[Response, int]:
 		query += " WHERE "
 		for key, value in criteres.items():
 			# If value is a dict, it's a subquery
-			if isinstance(value, dict):
+			try:
+				value = json.loads(value)
 				for key2, value2 in value.items():
 					query += f"attributs LIKE '%{key2}': '%{value2}%' AND"
-			else:
+			except:
 				query += f"{key} = '{value}' AND"
 		query = query[:-4]	# Remove last " AND"
-	print(query)
+
 	CURSOR.execute(query)
 	rows = CURSOR.fetchall()
 	column_names = [desc[0] for desc in CURSOR.description]

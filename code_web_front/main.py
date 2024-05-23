@@ -9,6 +9,7 @@ API_IP = sys.argv[1]
 API_PORT = sys.argv[2]
 
 # Import flask & constants
+import json
 import requests
 from flask import Flask, request, jsonify, Response, redirect
 BASE_URL = f"http://{API_IP}:{API_PORT}"
@@ -24,7 +25,15 @@ app = Flask(__name__)
 def home():
 	contacts = []
 	try:
-		contacts = requests.post(API_GET).json()
+		if not request.args.get("filtre"):
+			contacts = requests.post(API_GET).json()
+		else:
+			filtre = request.args.get("filtre")
+			try:
+				filtre_json = json.loads(filtre)
+				contacts = requests.post(API_GET, data = filtre_json).json()
+			except:
+				return "Format du filtre incorrect, doit être au format JSON : " + str(filtre), 400
 	except:
 		return "Erreur lors de la récupération des contacts", 500
 	
@@ -44,6 +53,18 @@ def home():
 		html += "\t\t\t<li>" + str(contact) + remove_icon + "</li>\n"
 	html += """
 		</ul>
+"""
+	# Pouvoir filtrer les contacts
+	html += """
+		<h2>Filtrer les contacts</h2>
+		<form method="GET" action="/">
+			<input type="textarea" id="filtre" name="filtre" placeholder='{"prenom":"John", "attributs": {"employeur":"URCA"}}'>
+			<button type="submit">Filtrer</button>
+		</form>
+"""
+
+	# Ajouter un contact
+	html += """
 		<h2>Ajouter un contact</h2>
 		<form method="POST" action="/add">
 			<label for="nom">Nom:</label>
