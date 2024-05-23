@@ -109,7 +109,14 @@ def get_contacts() -> tuple[Response, int]:
 		query = query[:-4]	# Remove last " AND"
 	print(query)
 	CURSOR.execute(query)
-	contacts = CURSOR.fetchall()
+	rows = CURSOR.fetchall()
+	column_names = [desc[0] for desc in CURSOR.description]
+	contacts = []
+	for row in rows:
+		contact = {}
+		for i, value in enumerate(row):
+			contact[column_names[i]] = value
+		contacts.append(contact)
 	return jsonify(contacts), 200
 
 # Exécution de l'application
