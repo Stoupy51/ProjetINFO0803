@@ -31,6 +31,7 @@ while DATABASE_CONNEXION is None and count < max_count:
 if DATABASE_CONNEXION is None:
 	DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database="projet_803")
 CURSOR = DATABASE_CONNEXION.cursor()
+print("Connexion à la base de données réussie")
 
 # Création d'une instance de l'application Flask
 app = Flask(__name__)
