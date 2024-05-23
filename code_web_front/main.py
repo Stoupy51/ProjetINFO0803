@@ -10,7 +10,7 @@ API_PORT = sys.argv[2]
 
 # Import flask & constants
 import requests
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify, Response, redirect
 BASE_URL = f"http://{API_IP}:{API_PORT}"
 API_GET = BASE_URL + "/api/get"
 API_ADD = BASE_URL + "/api/add"
@@ -72,7 +72,10 @@ def add_contact():
 			return r.text + str(request.form), r.status_code
 	except:
 		return "Erreur lors de l'ajout du contact", 500
-	return home()
+	
+	# Reroute client to home page ("/")
+	return redirect("/")
+
 
 # Suppression d'un contact
 @app.route("/remove", methods=["GET"])
@@ -91,7 +94,7 @@ def remove_contact():
 			return r.text, r.status_code
 	except:
 		return "Erreur lors de la suppression du contact", 500
-	return home()
+	return redirect("/")
 
 # Exécution de l'application
 if __name__ == "__main__":
