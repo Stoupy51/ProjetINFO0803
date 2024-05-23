@@ -21,7 +21,7 @@ CONTACT_TABLE = "contacts"
 DATABASE_CONNEXION = None
 count = 1
 max_count = 60
-while DATABASE_CONNEXION is None or count < max_count:
+while DATABASE_CONNEXION is None and count < max_count:
 	try:
 		DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database="projet_803")
 	except Exception as e:
