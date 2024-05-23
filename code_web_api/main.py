@@ -11,6 +11,14 @@ LOGIN = sys.argv[2]
 PASSWORD = sys.argv[3]
 API_PORT = sys.argv[4] if len(sys.argv) == 5 else 5000
 
+# Vérification si l'adresse IP reçue en paramètre est valide
+import socket
+try:
+	socket.inet_aton(DATABASE_IP)
+except socket.error:
+	print("L'adresse IP de la base de données est invalide")
+	sys.exit(1)
+
 # Imports & constants
 import time
 import pymysql
