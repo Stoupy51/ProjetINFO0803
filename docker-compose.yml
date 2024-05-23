@@ -14,6 +14,12 @@ services:
       #MYSQL_DATABASE: projet_803
       MYSQL_USER: projet_803
       MYSQL_PASSWORD: projet_803_password
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55
 
   web_api_l:
     image: 803_web_api
@@ -24,7 +30,9 @@ services:
     volumes:
       - ./code_web_api:/app
     depends_on:
-      - database_l
+      database_l:
+        condition: service_healthy
+        restart: true
     command: python /app/main.py database_l web_api projet_803_password 5000
 
   web_front_l:

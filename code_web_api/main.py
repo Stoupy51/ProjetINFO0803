@@ -13,7 +13,8 @@ API_PORT = sys.argv[4] if len(sys.argv) == 5 else 5000
 
 # Vérification si l'adresse IP reçue en paramètre est valide
 import socket
-socket.inet_aton(DATABASE_IP)
+print(DATABASE_IP)
+#socket.inet_aton(DATABASE_IP)
 
 # Imports & constants
 import time
@@ -23,15 +24,15 @@ CONTACT_TABLE = "contacts"
 
 # Connexion à la base de données
 DATABASE_CONNEXION = None
-count = 1
-max_count = 60
-while DATABASE_CONNEXION is None and count < max_count:
-	try:
-		DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database="projet_803")
-	except Exception as e:
-		print(f"Connexion à la base de données échouée, nouvelle tentative dans 1s ({count}/{max_count})")
-		time.sleep(1)
-		count += 1
+# count = 1
+# max_count = 60
+# while DATABASE_CONNEXION is None and count < max_count:
+# 	try:
+# 		DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database="projet_803")
+# 	except Exception as e:
+# 		print(f"Connexion à la base de données échouée, nouvelle tentative dans 1s ({count}/{max_count})")
+# 		time.sleep(1)
+# 		count += 1
 if DATABASE_CONNEXION is None:
 	DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database="projet_803")
 CURSOR = DATABASE_CONNEXION.cursor()
@@ -58,8 +59,11 @@ def add_contact() -> tuple[Response, int]:
 		return jsonify({"error": "Email manquant"}), 400
 	if not attributs:
 		return jsonify({"error": "Attributs manquants"}), 400
-	if not isinstance(attributs, dict):
-		return jsonify({"error": "Attributs doit être un dictionnaire"}), 400
+	try:
+		import json
+		attributs = json.loads(attributs)
+	except:
+		return jsonify({"error": "Attributs doit être un dictionnaire, actuellement : " + str(attributs)}), 400
 
 	# Ajout du contact
 	CURSOR.execute(f"INSERT INTO {CONTACT_TABLE} (nom, prenom, email, attributs) VALUES ('{nom}', '{prenom}', '{email}', '{attributs}')")

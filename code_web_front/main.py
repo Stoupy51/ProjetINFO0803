@@ -69,7 +69,7 @@ def add_contact():
 	try:
 		r = requests.post(API_ADD, data = request.form)
 		if r.status_code != 200:
-			return r.text, r.status_code
+			return r.text + str(request.form), r.status_code
 	except:
 		return "Erreur lors de l'ajout du contact", 500
 	return home()
