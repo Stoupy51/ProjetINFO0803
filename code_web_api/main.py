@@ -2,39 +2,25 @@
 
 # Vérification des arguments
 import sys
-if len(sys.argv) not in (4,5):
+if len(sys.argv) not in (6,7):
 	print("Erreur d'utilisation, format :")
-	print(sys.executable, sys.argv[0], "<database_ip> <database_login> <database_password> [<api_port>]")
+	print(sys.executable, sys.argv[0], "<database_ip> <database> <contact_table> <database_login> <database_password> [<api_port>]")
 	sys.exit(1)
 DATABASE_IP = sys.argv[1]
-LOGIN = sys.argv[2]
-PASSWORD = sys.argv[3]
-API_PORT = sys.argv[4] if len(sys.argv) == 5 else 5000
-
-# Vérification si l'adresse IP reçue en paramètre est valide
-import socket
-print(DATABASE_IP)
-#socket.inet_aton(DATABASE_IP)
+DATABASE_NAME = sys.argv[2]
+CONTACT_TABLE = sys.argv[3]
+LOGIN = sys.argv[4]
+PASSWORD = sys.argv[5]
+API_PORT = sys.argv[6] if len(sys.argv) == 7 else 5000
 
 # Imports & constants
 import time
+import json
 import pymysql
 from flask import Flask, request, jsonify, Response
-CONTACT_TABLE = "contacts"
 
 # Connexion à la base de données
-DATABASE_CONNEXION = None
-# count = 1
-# max_count = 60
-# while DATABASE_CONNEXION is None and count < max_count:
-# 	try:
-# 		DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database="projet_803")
-# 	except Exception as e:
-# 		print(f"Connexion à la base de données échouée, nouvelle tentative dans 1s ({count}/{max_count})")
-# 		time.sleep(1)
-# 		count += 1
-if DATABASE_CONNEXION is None:
-	DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database="projet_803")
+DATABASE_CONNEXION = pymysql.connect(host=DATABASE_IP, user=LOGIN, password=PASSWORD, database=DATABASE_NAME)
 CURSOR = DATABASE_CONNEXION.cursor()
 print("Connexion à la base de données réussie")
 
@@ -60,13 +46,12 @@ def add_contact() -> tuple[Response, int]:
 	if not attributs:
 		return jsonify({"error": "Attributs manquants"}), 400
 	try:
-		import json
 		attributs = json.loads(attributs)
 	except:
 		return jsonify({"error": "Attributs doit être un dictionnaire, actuellement : " + str(attributs)}), 400
 
-	# Ajout du contact
-	CURSOR.execute(f"INSERT INTO {CONTACT_TABLE} (nom, prenom, email, attributs) VALUES ('{nom}', '{prenom}', '{email}', '{attributs}')")
+	# Ajout du contact avec des bindings pour éviter les injections SQL
+	CURSOR.execute(f"INSERT INTO {CONTACT_TABLE} (nom, prenom, email, attributs) VALUES (%s, %s, %s, %s)", (nom, prenom, email, json.dumps(attributs)))
 	DATABASE_CONNEXION.commit()
 	return jsonify({"success": "Contact ajouté"}), 200
 
@@ -85,7 +70,7 @@ def remove_contact() -> tuple[Response, int]:
 		return jsonify({"error": "Prénom manquant"}), 400
 	
 	# Suppression du contact
-	CURSOR.execute(f"DELETE FROM {CONTACT_TABLE} WHERE nom = '{nom}' AND prenom = '{prenom}'")
+	CURSOR.execute(f"DELETE FROM {CONTACT_TABLE} WHERE nom = %s AND prenom = %s", (nom, prenom))
 
 	# Vérification de la suppression
 	if CURSOR.rowcount == 0:

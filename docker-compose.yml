@@ -33,7 +33,7 @@ services:
       database_l:
         condition: service_healthy
         restart: true
-    command: python /app/main.py database_l web_api projet_803_password 5000
+    command: python /app/main.py database_l projet_803 contacts web_api projet_803_password 5000
 
   web_front_l:
     image: 803_web_front
