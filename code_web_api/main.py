@@ -16,8 +16,7 @@ import socket
 try:
 	socket.inet_aton(DATABASE_IP)
 except socket.error:
-	print("L'adresse IP de la base de données est invalide")
-	sys.exit(1)
+	raise Exception("L'adresse IP de la base de données est invalide")
 
 # Imports & constants
 import time
