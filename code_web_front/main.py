@@ -36,9 +36,10 @@ def home():
 							filtre[f] = json.loads(request.args.get(f))
 						else:
 							filtre[f] = request.args.get(f)
-				contacts = requests.post(API_GET, data = filtre).json()
+				contacts = requests.post(API_GET, data = filtre)
+				contacts = contacts.json()
 			except:
-				return "Format du filtre incorrect, doit être au format JSON : " + str(request.args), 400
+				return "Format du filtre incorrect, doit être au format JSON : " + str(request.args) + "\n" + str(contacts), 400
 	except:
 		return "Erreur lors de la récupération des contacts", 500
 	
