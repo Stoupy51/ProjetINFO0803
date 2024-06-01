@@ -97,7 +97,7 @@ def get_contacts() -> tuple[Response, int]:
 			try:
 				value = json.loads(value)
 				for key2, value2 in value.items():
-					query += f"attributs LIKE '%{key2}': '%{value2}%' AND"
+					query += f'(attributs LIKE \'%"{key2}":"{value2}"%\' OR attributs LIKE \'%"{key2}": "{value2}"%\') AND'
 			except:
 				query += f"{key} = '{value}' AND"
 		query = query[:-4]	# Remove last " AND"

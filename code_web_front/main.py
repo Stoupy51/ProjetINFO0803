@@ -25,15 +25,20 @@ app = Flask(__name__)
 def home():
 	contacts = []
 	try:
-		if not request.args.get("filtre"):
+		if not any(request.args.get(f) for f in ("nom", "prenom", "email", "attributs")):
 			contacts = requests.post(API_GET).json()
 		else:
-			filtre = request.args.get("filtre")
+			filtre = {}
 			try:
-				filtre_json = json.loads(filtre)
-				contacts = requests.post(API_GET, data = filtre_json).json()
+				for f in ("nom", "prenom", "email", "attributs"):
+					if request.args.get(f):
+						if f == "attributs":
+							filtre[f] = json.loads(request.args.get(f))
+						else:
+							filtre[f] = request.args.get(f)
+				contacts = requests.post(API_GET, data = filtre).json()
 			except:
-				return "Format du filtre incorrect, doit être au format JSON : " + str(filtre), 400
+				return "Format du filtre incorrect, doit être au format JSON : " + str(request.args), 400
 	except:
 		return "Erreur lors de la récupération des contacts", 500
 	
@@ -58,7 +63,10 @@ def home():
 	html += """
 		<h2>Filtrer les contacts</h2>
 		<form method="GET" action="/">
-			<input type="textarea" id="filtre" name="filtre" placeholder='{"prenom":"John", "attributs": {"employeur":"URCA"}}'>
+			<input type="text" id="nom" name="nom" placeholder="(optionnel)">
+			<input type="text" id="prenom" name="prenom" placeholder="(optionnel)">
+			<input type="text" id="email" name="email" placeholder="(optionnel)">
+			<input type="text" id="attributs" name="attributs" placeholder="(optionnel)">
 			<button type="submit">Filtrer</button>
 		</form>
 """
