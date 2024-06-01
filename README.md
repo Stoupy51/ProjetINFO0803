@@ -21,7 +21,7 @@ Puis, dans les dépendances des serveurs, on attend que la condition `service_he
 Pour tester l'application, il suffit de se rendre sur [http://localhost/](http://localhost/)<br>
 L'ajout et le filtre se font par les formulaires, et la suppression par la croix à droite de chaque élément.<br>
 Pour revenir à la liste de tous les contacts, il suffit juste de filtrer avec toutes les cases de filtrage vides.<br>
-
+Pour ajouter ou filtrer, le champ `attributs` doit être un format JSON valide !<br>
 
 # Comment le faire fonctionner ?
 ## Avec python
@@ -37,7 +37,7 @@ Pour revenir à la liste de tous les contacts, il suffit juste de filtrer avec t
 docker build -t 803_database -f 803_database.dockerfile .
 docker build -t 803_web_api -f 803_web_api.dockerfile .
 docker build -t 803_web_front -f 803_web_front.dockerfile .
-docker-compose up
+docker-compose up --force-recreate
 ```
 
 ## Le plus automatique possible (avec python)

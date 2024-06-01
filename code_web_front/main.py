@@ -25,14 +25,18 @@ app = Flask(__name__)
 def home():
 	contacts = []
 	try:
+		# Si il n'y a pas de filtre, on récupère tous les contacts
 		if not any(request.args.get(f) for f in ("nom", "prenom", "email", "attributs")):
 			contacts = requests.post(API_GET).json()
 		else:
+			# Sinon, on récupère les différents filtres
 			filtre = {}
 			try:
 				for f in ("nom", "prenom", "email", "attributs"):
 					if request.args.get(f):
 						filtre[f] = request.args.get(f)
+				
+				# On récupère les contacts filtrés
 				contacts = requests.post(API_GET, data = filtre)
 				contacts = contacts.json()
 			except:

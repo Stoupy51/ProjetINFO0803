@@ -20,7 +20,7 @@ CREATE TABLE contacts (
 INSERT INTO contacts (prenom, nom, email, attributs) VALUES 
 	('Justin', 'Case', 'justincase@smtwent.bad', '{"employeur": "TrustUS", "poste": "Responsable communication"}'),
 	('Bob', 'Bobby', 'bobbobby@gmail.com', '{"employeur": "Gouvernement", "poste": "Directeur tres important", "info": "Je suis un peu plus important que le directeur"}'),
-	('Alice', 'Liddell', 'liddell@mnms.fr', '{"employeur": "m&ms", "poste": "Developpeuse"}'),
+	('Alice', 'Liddell', 'liddell@mnms.fr', '{"employeur": "mms", "poste": "Developpeuse"}'),
 	('David', 'Guetter', 'david.guetta@passesimple.fr', '{"employeur": "Passe Simple", "poste": "Responsable de la musique"}'),
 	('Pierre', 'Feuille', 'pierre.feuille@ciseaux.fr', '{"employeur": "Jeu", "poste": "Responsable de la pierre"}');
 

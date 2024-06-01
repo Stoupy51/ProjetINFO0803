@@ -101,6 +101,7 @@ def get_contacts() -> tuple[Response, int]:
 				query += f"{key} = '{value}' AND"
 		query = query[:-4]	# Remove last " AND"
 
+	# Exécution de la requête
 	rows = []
 	try:
 		CURSOR.execute(query)
@@ -108,6 +109,8 @@ def get_contacts() -> tuple[Response, int]:
 		column_names = [desc[0] for desc in CURSOR.description]
 	except:
 		pass
+
+	# On récupère le résultat de la requête
 	contacts = []
 	for row in rows:
 		contact = {}
