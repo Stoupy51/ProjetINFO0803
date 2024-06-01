@@ -16,6 +16,7 @@ Notre `docker-compose.yml` permet de lancer les 3 conteneurs dans un ordre d'ex�
 La base de données se lance en première, puis l'API Web et enfin la facade Web.<br>
 Afin de déterminer si la base de données est prête à recevoir des requêtes, on utilise l'attribut `healthcheck` de Docker.<br>
 Puis, dans les dépendances des serveurs, on attend que la condition `service_healthy` soit validée.<br>
+Attention, le premier lancement du docker-compose prendre un peu de temps (dû à l'initialisation de la base de données).<br>
 
 # Tester l'application
 Pour tester l'application, il suffit de se rendre sur [http://localhost/](http://localhost/)<br>
