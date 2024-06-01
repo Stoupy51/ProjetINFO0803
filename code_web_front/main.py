@@ -54,8 +54,11 @@ def home():
 		<ul>
 """
 	for contact in contacts:
-		remove_icon = "<a href='/remove?nom=" + contact["nom"] + "&prenom=" + contact["prenom"] + "'>❌</a>"
-		html += "\t\t\t<li>" + str(contact) + remove_icon + "</li>\n"
+		try:
+			remove_icon = "<a href='/remove?nom=" + contact["nom"] + "&prenom=" + contact["prenom"] + "'>❌</a>"
+			html += "\t\t\t<li>" + str(contact) + remove_icon + "</li>\n"
+		except:
+			html += "\t\t\t<li>" + str(contact) + "</li>\n"
 	html += """
 		</ul>
 """
