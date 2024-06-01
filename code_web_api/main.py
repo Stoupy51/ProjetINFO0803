@@ -93,12 +93,11 @@ def get_contacts() -> tuple[Response, int]:
 	if len(criteres) > 0:
 		query += " WHERE "
 		for key, value in criteres.items():
-			# If value is a dict, it's a subquery
-			try:
-				value = json.loads(value)
+			if key == "attributs":
+				value = json.loads(value)	# Convert string to dict
 				for key2, value2 in value.items():
 					query += f'(attributs LIKE \'%"{key2}":"{value2}"%\' OR attributs LIKE \'%"{key2}": "{value2}"%\') AND'
-			except:
+			else:
 				query += f"{key} = '{value}' AND"
 		query = query[:-4]	# Remove last " AND"
 
@@ -115,7 +114,6 @@ def get_contacts() -> tuple[Response, int]:
 		for i, value in enumerate(row):
 			contact[column_names[i]] = value
 		contacts.append(contact)
-	contacts.append(query)
 	return jsonify(contacts), 200
 
 # Exécution de l'application

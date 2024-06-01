@@ -32,10 +32,7 @@ def home():
 			try:
 				for f in ("nom", "prenom", "email", "attributs"):
 					if request.args.get(f):
-						if f == "attributs":
-							filtre[f] = json.loads(request.args.get(f))
-						else:
-							filtre[f] = request.args.get(f)
+						filtre[f] = request.args.get(f)
 				contacts = requests.post(API_GET, data = filtre)
 				contacts = contacts.json()
 			except:
