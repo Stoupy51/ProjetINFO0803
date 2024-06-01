@@ -102,6 +102,7 @@ def get_contacts() -> tuple[Response, int]:
 				query += f"{key} = '{value}' AND"
 		query = query[:-4]	# Remove last " AND"
 
+	
 	CURSOR.execute(query)
 	rows = CURSOR.fetchall()
 	column_names = [desc[0] for desc in CURSOR.description]
@@ -111,6 +112,7 @@ def get_contacts() -> tuple[Response, int]:
 		for i, value in enumerate(row):
 			contact[column_names[i]] = value
 		contacts.append(contact)
+	contacts.append(query)
 	return jsonify(contacts), 200
 
 # Exécution de l'application
