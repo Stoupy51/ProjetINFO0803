@@ -8,10 +8,8 @@ services:
       - "3306:3306"
     volumes:
       - ./data:/803_database/data
-    #command: mysqld --init-file="/803_database/data/init.sql"
     environment:
       MYSQL_ROOT_PASSWORD: projet_803_password
-      #MYSQL_DATABASE: projet_803
       MYSQL_USER: projet_803
       MYSQL_PASSWORD: projet_803_password
     healthcheck:
