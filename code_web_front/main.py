@@ -63,9 +63,13 @@ def home():
 	html += """
 		<h2>Filtrer les contacts</h2>
 		<form method="GET" action="/">
+			<label for="nom">Nom:</label>
 			<input type="text" id="nom" name="nom" placeholder="(optionnel)">
+			<label for="prenom">Prénom:</label>
 			<input type="text" id="prenom" name="prenom" placeholder="(optionnel)">
+			<label for="email">Email:</label>
 			<input type="text" id="email" name="email" placeholder="(optionnel)">
+			<label for="attributs">Attributs:</label>
 			<input type="text" id="attributs" name="attributs" placeholder="(optionnel)">
 			<button type="submit">Filtrer</button>
 		</form>
